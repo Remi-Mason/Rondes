@@ -169,78 +169,51 @@ background: linear-gradient(120deg, #f6d365, #fda085);
   </div>
 
 <script>
-  // AudioContext très réactif
+  // === Web Audio API (ultra faible latence) ===
   const ctx = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: "interactive" });
 
-  // --- Warm-up (évite le "premier son avalé") ---
-  function warmUp() {
-    try {
-      const buf = ctx.createBuffer(1, 1, 44100); // 1 frame silencieuse
-      const src = ctx.createBufferSource();
-      src.buffer = buf;
-      src.connect(ctx.destination);
-      src.start(0);
-    } catch {}
-  }
-
-  // Déverrouille sur premier geste utilisateur
-  function unlockOnce() {
+  // Déverrouille l'audio sur le 1er geste utilisateur (nécessaire sur mobile)
+  function unlockAudio() {
     if (ctx.state === "suspended") ctx.resume();
-    warmUp();
-    window.removeEventListener("pointerdown", unlockOnce);
-    window.removeEventListener("touchstart", unlockOnce);
-    window.removeEventListener("keydown", unlockOnce);
   }
-  window.addEventListener("pointerdown", unlockOnce, { passive: true });
-  window.addEventListener("touchstart", unlockOnce, { passive: true });
-  window.addEventListener("keydown", unlockOnce,  { passive: true });
+  window.addEventListener("pointerdown", unlockAudio, { passive: true });
+  window.addEventListener("keydown",   unlockAudio, { passive: true });
 
-  // Loader → AudioBuffer
-  async function loadBuffer(url){
+  async function loadBuffer(url) {
     const res = await fetch(url);
-    const buf = await res.arrayBuffer();
-    return await new Promise((ok, ko) => ctx.decodeAudioData(buf, ok, ko));
+    const arr = await res.arrayBuffer();
+    return await ctx.decodeAudioData(arr);
   }
 
-  const buffers = { click:null, success:null };
-  let ready = false;
+  const buffers = { click: null, success: null };
   let successPlayed = false;
 
-  // Si on clique avant que ce soit prêt, on rejouera ce clic
-  let pending = { has:false, target:null };
-
-  function setButtonsEnabled(enabled){
-    document.querySelectorAll(".time-btn").forEach(btn=>{
-      btn.toggleAttribute("disabled", !enabled);
-      btn.style.opacity = enabled ? "1" : "0.6";
-      btn.style.pointerEvents = enabled ? "auto" : "none";
-    });
-  }
-
-  function play(buf){
+  function play(buf) {
     if (!buf) return;
     const src = ctx.createBufferSource();
     src.buffer = buf;
     src.connect(ctx.destination);
-    src.start(0); // immédiat
+    src.start(0);
   }
 
-  function areAllDone(){
+  function areAllDone() {
     return [...document.querySelectorAll(".time-btn")]
       .every(b => b.classList.contains("done"));
   }
 
-  function handleToggle(btn){
-    // 1) Son clic
+  function toggleBtn(e) {
+    const btn = e.currentTarget;
+
+    // son clic instantané
     play(buffers.click);
 
-    // 2) Bascule visuelle
+    // bascule visuelle
     btn.classList.toggle("done");
     btn.setAttribute("aria-pressed", btn.classList.contains("done") ? "true" : "false");
 
-    // 3) Son succès (une seule fois)
-    if (areAllDone()){
-      if (!successPlayed){
+    // son succès une seule fois quand tout est vert
+    if (areAllDone()) {
+      if (!successPlayed) {
         play(buffers.success);
         successPlayed = true;
       }
@@ -249,49 +222,28 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     }
   }
 
-  function onPointerDown(e){
-    const btn = e.currentTarget;
-    if (!ready){
-      // Trop tôt → on file d’attente ce clic et on empêche l’action par défaut
-      e.preventDefault();
-      pending = { has:true, target: btn };
-      return;
-    }
-    handleToggle(btn);
-  }
-
-  (async function init(){
-    // Désactive les boutons le temps de charger les sons
-    setButtonsEnabled(false);
-
-    // Précharge (sons courts conseillés)
+  // Init après chargement du DOM
+  (async function init() {
+    // Précharge/Decode les sons en mémoire (évite le lag)
     [buffers.click, buffers.success] = await Promise.all([
       loadBuffer("sounds/bubble.mp3"),
       loadBuffer("sounds/success.mp3"),
     ]);
 
-    // Branche les handlers (pointerdown = plus rapide que click)
-    document.querySelectorAll(".time-btn").forEach(btn=>{
-      btn.addEventListener("pointerdown", onPointerDown);
+    // Branche les boutons
+    document.querySelectorAll(".time-btn").forEach(btn => {
+      btn.addEventListener("click", toggleBtn);
       btn.setAttribute("role","button");
       btn.setAttribute("aria-pressed","false");
       btn.classList.remove("done");
     });
-
-    ready = true;
-    setButtonsEnabled(true);
-
-    // Si l’utilisateur avait déjà tapé, on rejoue ce tap maintenant
-    if (pending.has && pending.target){
-      handleToggle(pending.target);
-      pending = { has:false, target:null };
-    }
   })();
 </script>
 
 
 </body>
 </html>
+
 
 
 
