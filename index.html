@@ -1,18 +1,11 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- Icône standard favicon -->
-  <link rel="icon" type="image/png" href="favicon.png?v=4">
-
-  <!-- Icônes pour mobile -->
-  <link rel="apple-touch-icon" sizes="180x180" href="favicon.png?v=4">
-  <link rel="icon" sizes="192x192" href="favicon.png?v=4">
-
-  <!-- Couleur de thème (Chrome mobile) -->
-  <meta name="theme-color" content="#e0e0e0">
-
+<link rel="icon" type="image/png" href="favicon.png?v=2">
+<link rel="shortcut icon" href="favicon.png?v=2">
+<link rel="apple-touch-icon" href="favicon.png?v=2">
   <meta charset="utf-8" />
-  <title>Libercourt Rondes semaine</title>
+  <title>Planning rondier / intervenant</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     :root{
@@ -29,7 +22,7 @@
 }
     .wrap{ max-width:500px; margin:0 auto; padding:12px 14px 18px; }
     header{ display:flex; justify-content:center; align-items:center; padding:2px 0 5px; }
-    header img{ max-width:300px; height:auto; display:block; }
+    header img{ max-width:250px; height:auto; display:block; }
     h1{ text-align:center; font-size:18px; margin:8px 0 16px; font-weight:700; }
 
     /* Ligne (site à gauche, bouton heure à droite) */
@@ -176,32 +169,52 @@
   </div>
 
 <script>
-  // Sons
-  const clickSound = new Audio("sounds/bubble.mp3");
-  const successSound = new Audio("sounds/success.mp3");
+  // === Web Audio API (ultra faible latence) ===
+  const ctx = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: "interactive" });
 
-  function areAllDone(){
+  // Déverrouille l'audio sur le 1er geste utilisateur (nécessaire sur mobile)
+  function unlockAudio() {
+    if (ctx.state === "suspended") ctx.resume();
+  }
+  window.addEventListener("pointerdown", unlockAudio, { passive: true });
+  window.addEventListener("keydown",   unlockAudio, { passive: true });
+
+  async function loadBuffer(url) {
+    const res = await fetch(url);
+    const arr = await res.arrayBuffer();
+    return await ctx.decodeAudioData(arr);
+  }
+
+  const buffers = { click: null, success: null };
+  let successPlayed = false;
+
+  function play(buf) {
+    if (!buf) return;
+    const src = ctx.createBufferSource();
+    src.buffer = buf;
+    src.connect(ctx.destination);
+    src.start(0);
+  }
+
+  function areAllDone() {
     return [...document.querySelectorAll(".time-btn")]
       .every(b => b.classList.contains("done"));
   }
 
-  // Évite de rejouer le son de succès en boucle pendant une même session
-  let successPlayed = false;
-
-  function toggleBtn(e){
+  function toggleBtn(e) {
     const btn = e.currentTarget;
 
-    // clic
-    try { clickSound.currentTime = 0; clickSound.play(); } catch {}
+    // son clic instantané
+    play(buffers.click);
 
     // bascule visuelle
     btn.classList.toggle("done");
     btn.setAttribute("aria-pressed", btn.classList.contains("done") ? "true" : "false");
 
-    // succès quand tous sont verts
-    if (areAllDone()){
-      if (!successPlayed){
-        try { successSound.currentTime = 0; successSound.play(); } catch {}
+    // son succès une seule fois quand tout est vert
+    if (areAllDone()) {
+      if (!successPlayed) {
+        play(buffers.success);
         successPlayed = true;
       }
     } else {
@@ -209,16 +222,25 @@
     }
   }
 
-  // Init : aucun état mémorisé → tout repart à blanc à chaque refresh
-  document.querySelectorAll(".time-btn").forEach(btn=>{
-    btn.addEventListener("click", toggleBtn);
-    btn.setAttribute("role","button");
-    btn.setAttribute("aria-pressed", "false");
-    btn.classList.remove("done");
-  });
+  // Init après chargement du DOM
+  (async function init() {
+    // Précharge/Decode les sons en mémoire (évite le lag)
+    [buffers.click, buffers.success] = await Promise.all([
+      loadBuffer("sounds/bubble.mp3"),
+      loadBuffer("sounds/success.mp3"),
+    ]);
+
+    // Branche les boutons
+    document.querySelectorAll(".time-btn").forEach(btn => {
+      btn.addEventListener("click", toggleBtn);
+      btn.setAttribute("role","button");
+      btn.setAttribute("aria-pressed","false");
+      btn.classList.remove("done");
+    });
+  })();
 </script>
+
 
 </body>
 </html>
-
 
