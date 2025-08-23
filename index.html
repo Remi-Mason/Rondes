@@ -59,51 +59,19 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 	  background-color: #f5f5dc; /* beige */
   
 }
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  top: 100%;
-  background-color: rgba(0, 0, 0, 0.85); /* noir transparent */
-  border: 1px solid #fff;                /* bordure blanche */
-  min-width: 160px;
-  font-weight: 700;   /* ✅ texte en gras */
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
-  border-radius: 8px;
-  z-index: 10;
-}
-
-.dropdown-content a {
-  display: block;
-  padding: 10px 14px;
-  color: #fff;
-  text-decoration: none;
-  text-align: center;   /* ✅ centre le texte */
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-}
-
-.dropdown-content a:last-child {
-  border-bottom: none;
-}
-
-.dropdown.open .dropdown-content {
-  display: block;
-}
-.nav-links{
-  display:flex;
-  justify-content:center;  /* centre horizontalement */
-  margin:5px 0 10px;      /* un peu d’air sous le logo */
+.nav-links {
+  display: flex;
+  justify-content: center;
+  margin: 5px 0 10px;
 }
 .nav-btn {
-  background: #333;     /* fond noir */
-  color: #fff;          /* texte blanc */
+  background: #333;
+  color: #fff;
   border: 2px solid #FFF;
+  border-radius: 1000px;
+  padding: 8px 14px;
+  font-weight: 600;
+  text-decoration: none;
 }
 
   </style>
@@ -111,14 +79,8 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 <body>
   <div class="wrap">
     <header><img src="images/logo artemis.png" alt="Logo"></header>
-	<div class="nav-links">
-  <div class="dropdown">
-    <button class="btn nav-btn">Index</button>
-    <div class="dropdown-content">
-      <a href="https://remi-mason.github.io/Rondes/" target="_blank" rel="noopener">Libercourt</a>
-      <a href="https://ton-lien-github-noyelles" target="_blank" rel="noopener">Noyelles/L</a>
-    </div>
-  </div>
+<div class="nav-links">
+  <a class="btn nav-btn" href="https://ton-lien-github" target="_blank" rel="noopener">Index</a>
 </div>
     <h1>Planning-Rondes Libercourt
 (Lundi → Vendredi)</h1>
@@ -319,7 +281,6 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
-
 
 
 
