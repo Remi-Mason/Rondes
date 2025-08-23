@@ -210,7 +210,8 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     const btn = e.currentTarget;
 
     // son clic instantané
-    play(buffers.click);
+    play(buffers.click, 0.5); // réduit à 50%
+
 
     // bascule visuelle
     btn.classList.toggle("done");
@@ -248,6 +249,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
+
 
 
 
