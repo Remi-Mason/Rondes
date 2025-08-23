@@ -188,13 +188,18 @@ background: linear-gradient(120deg, #f6d365, #fda085);
   const buffers = { click: null, success: null };
   let successPlayed = false;
 
-  function play(buf) {
-    if (!buf) return;
-    const src = ctx.createBufferSource();
-    src.buffer = buf;
-    src.connect(ctx.destination);
-    src.start(0);
-  }
+ function play(buf, gainValue = 1.0){
+  if (!buf) return;
+  const src = ctx.createBufferSource();
+  src.buffer = buf;
+
+  // on ajoute un "volume"
+  const gainNode = ctx.createGain();
+  gainNode.gain.value = gainValue; // 1.0 = normal, >1 = plus fort
+
+  src.connect(gainNode).connect(ctx.destination);
+  src.start(0);
+}
 
   function areAllDone() {
     return [...document.querySelectorAll(".time-btn")]
@@ -243,6 +248,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
+
 
 
 
