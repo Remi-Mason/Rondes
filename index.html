@@ -80,7 +80,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- Theolaur Peinture — Fermeture — 20:45 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/theolaur-peinture-rue-rene-cauche-5-noyelles-les-seclin?to=place.w.1966586.19928001.7476934">
+         href="waze://?ll=50.5709,3.0409&navigate=yes">
         Theolaur Peinture — Fermeture
         <span class="sub">5 rue René Cauche, Noyelles-lès-Seclin</span>
       </a>
@@ -90,7 +90,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ASPUZIL Seclin — 21:00 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/dechetterie-de-seclin-lorival?to=place.w.1966586.19862464.2677581">
+         href="waze://?ll=50.5455,3.0120&navigate=yes">
         ASPUZIL Seclin — Sécurité
         <span class="sub">Rue Marcel Dassault, Seclin</span>
       </a>
@@ -100,7 +100,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- Leroy Merlin Lesquin — 23:30 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/leroy-merlin-lille-lesquin-route-de-douai?to=place.w.2032122.20255683.495693">
+         href="waze://?ll=50.5907,3.0996&navigate=yes">
         Leroy Merlin Lesquin — Sécurité
         <span class="sub">51 route de Douai, Lesquin</span>
       </a>
@@ -110,7 +110,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ZI Libercourt — 00:15 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/les-gourmets-de-lartois-z.i.-les-portes-du-nord-libercourt?to=place.w.1966585.19665849.4745596">
+         href="waze://?ll=50.4848,3.0167&navigate=yes">
         ZI Libercourt — Sécurité
         <span class="sub">Avenue Blaise Pascal, Libercourt</span>
       </a>
@@ -120,7 +120,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ASPUZIL — 01:15 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/dechetterie-de-seclin-lorival?to=place.w.1966586.19862464.2677581">
+         href="waze://?ll=50.5455,3.0120&navigate=yes">
         ASPUZIL Seclin — Sécurité
         <span class="sub">Rue Marcel Dassault, Seclin</span>
       </a>
@@ -130,7 +130,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ZI Libercourt — 02:30 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/les-gourmets-de-lartois-z.i.-les-portes-du-nord-libercourt?to=place.w.1966585.19665849.4745596">
+         href="waze://?ll=50.4848,3.0167&navigate=yes">
         ZI Libercourt — Sécurité
         <span class="sub">Avenue Blaise Pascal, Libercourt</span>
       </a>
@@ -140,7 +140,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ASPUZIL — 03:45 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/dechetterie-de-seclin-lorival?to=place.w.1966586.19862464.2677581">
+         href="waze://?ll=50.5455,3.0120&navigate=yes">
         ASPUZIL Seclin — Sécurité
         <span class="sub">Rue Marcel Dassault, Seclin</span>
       </a>
@@ -150,7 +150,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ECL Atelier — 04:30 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/fr/hauts-de-france/ronchin/100-rue-chalant?to=place.ChIJ8z_kMM7VwkcRtqwfVmtzul4">
+         href="waze://?ll=50.5986,3.0865&navigate=yes">
         ECL Ronchin — Ouverture Atelier
         <span class="sub">100 rue Chaland, Ronchin</span>
       </a>
@@ -160,7 +160,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <!-- ECL Admin — 05:00 -->
     <div class="row">
       <a class="btn site-btn" target="_blank" rel="noopener"
-         href="https://www.waze.com/fr/live-map/directions/fr/hauts-de-france/ronchin/100-rue-chalant?to=place.ChIJ8z_kMM7VwkcRtqwfVmtzul4">
+         href="waze://?ll=50.5986,3.0865&navigate=yes">
         ECL Ronchin — Ouverture Administration
         <span class="sub">100 rue Chaland, Ronchin</span>
       </a>
@@ -169,51 +169,59 @@ background: linear-gradient(120deg, #f6d365, #fda085);
   </div>
 
 <script>
-  // === Web Audio API (ultra faible latence) ===
+  // Contexte audio très réactif
   const ctx = new (window.AudioContext || window.webkitAudioContext)({ latencyHint: "interactive" });
 
-  // Déverrouille l'audio sur le 1er geste utilisateur (nécessaire sur mobile)
-  function unlockAudio() {
+  // Déverrouillage (mobile)
+  function unlockOnce() {
     if (ctx.state === "suspended") ctx.resume();
+    window.removeEventListener("pointerdown", unlockOnce);
+    window.removeEventListener("keydown", unlockOnce);
+    window.removeEventListener("touchstart", unlockOnce);
   }
-  window.addEventListener("pointerdown", unlockAudio, { passive: true });
-  window.addEventListener("keydown",   unlockAudio, { passive: true });
+  window.addEventListener("pointerdown", unlockOnce, { passive: true });
+  window.addEventListener("keydown", unlockOnce,  { passive: true });
+  window.addEventListener("touchstart", unlockOnce, { passive: true });
 
-  async function loadBuffer(url) {
+  // Loader → AudioBuffer (préchargé)
+  async function loadBuffer(url){
     const res = await fetch(url);
-    const arr = await res.arrayBuffer();
-    return await ctx.decodeAudioData(arr);
+    const buf = await res.arrayBuffer();
+    return await new Promise((ok, ko) => {
+      // decodeAudioData peut être async/legacy selon navigateur
+      ctx.decodeAudioData(buf, ok, ko);
+    });
   }
 
-  const buffers = { click: null, success: null };
+  const buffers = { click:null, success:null };
   let successPlayed = false;
 
-  function play(buf) {
+  function play(buf){
     if (!buf) return;
     const src = ctx.createBufferSource();
     src.buffer = buf;
     src.connect(ctx.destination);
+    // start(0) = maintenant → latence minimale
     src.start(0);
   }
 
-  function areAllDone() {
+  function areAllDone(){
     return [...document.querySelectorAll(".time-btn")]
       .every(b => b.classList.contains("done"));
   }
 
-  function toggleBtn(e) {
-    const btn = e.currentTarget;
-
-    // son clic instantané
+  function onPointerDown(e){
+    // 1) Son d’abord (avant toute modif DOM)
     play(buffers.click);
 
-    // bascule visuelle
+    // 2) Bascule visuelle
+    const btn = e.currentTarget;
     btn.classList.toggle("done");
     btn.setAttribute("aria-pressed", btn.classList.contains("done") ? "true" : "false");
 
-    // son succès une seule fois quand tout est vert
-    if (areAllDone()) {
-      if (!successPlayed) {
+    // 3) Son succès (une seule fois quand tout est vert)
+    if (areAllDone()){
+      if (!successPlayed){
         play(buffers.success);
         successPlayed = true;
       }
@@ -222,17 +230,16 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     }
   }
 
-  // Init après chargement du DOM
-  (async function init() {
-    // Précharge/Decode les sons en mémoire (évite le lag)
+  (async function init(){
+    // ⚠️ utilise des fichiers courts (≤100ms) pour un vrai "click" sec
     [buffers.click, buffers.success] = await Promise.all([
       loadBuffer("sounds/bubble.mp3"),
       loadBuffer("sounds/success.mp3"),
     ]);
 
-    // Branche les boutons
-    document.querySelectorAll(".time-btn").forEach(btn => {
-      btn.addEventListener("click", toggleBtn);
+    // Branche sur pointerdown (plus rapide que click)
+    document.querySelectorAll(".time-btn").forEach(btn=>{
+      btn.addEventListener("pointerdown", onPointerDown);
       btn.setAttribute("role","button");
       btn.setAttribute("aria-pressed","false");
       btn.classList.remove("done");
@@ -243,6 +250,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
+
 
 
 
