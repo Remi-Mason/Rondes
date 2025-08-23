@@ -59,11 +59,67 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 	  background-color: #f5f5dc; /* beige */
   
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 100%;
+  background-color: rgba(0, 0, 0, 0.85); /* noir transparent */
+  border: 1px solid #fff;                /* bordure blanche */
+  min-width: 160px;
+  font-weight: 700;   /* ✅ texte en gras */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  border-radius: 8px;
+  z-index: 10;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 14px;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;   /* ✅ centre le texte */
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.dropdown-content a:last-child {
+  border-bottom: none;
+}
+
+.dropdown.open .dropdown-content {
+  display: block;
+}
+.nav-links{
+  display:flex;
+  justify-content:center;  /* centre horizontalement */
+  margin:5px 0 10px;      /* un peu d’air sous le logo */
+}
+.nav-btn {
+  background: #333;     /* fond noir */
+  color: #fff;          /* texte blanc */
+  border: 2px solid #FFF;
+}
+
   </style>
 </head>
 <body>
   <div class="wrap">
     <header><img src="images/logo artemis.png" alt="Logo"></header>
+	<div class="nav-links">
+  <div class="dropdown">
+    <button class="btn nav-btn">Index</button>
+    <div class="dropdown-content">
+      <a href="https://ton-lien-github-libercourt" target="_blank" rel="noopener">Libercourt</a>
+      <a href="https://ton-lien-github-noyelles" target="_blank" rel="noopener">Noyelles/L</a>
+    </div>
+  </div>
+</div>
     <h1>Planning-Rondes Libercourt
 (Lundi → Vendredi)</h1>
 
@@ -212,7 +268,6 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     // son clic instantané
     play(buffers.click, 0.5); // réduit à 50%
 
-
     // bascule visuelle
     btn.classList.toggle("done");
     btn.setAttribute("aria-pressed", btn.classList.contains("done") ? "true" : "false");
@@ -244,12 +299,26 @@ background: linear-gradient(120deg, #f6d365, #fda085);
       btn.classList.remove("done");
     });
   })();
+   document.addEventListener("DOMContentLoaded", function(){
+    const dropdown = document.querySelector(".dropdown");
+    const btn = dropdown.querySelector(".nav-btn");
+    
+    btn.addEventListener("click", function(){
+      dropdown.classList.toggle("open");
+    });
+
+    // optionnel : refermer si on clique ailleurs
+    document.addEventListener("click", function(e){
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove("open");
+      }
+    });
+  });
 </script>
 
 
 </body>
 </html>
-
 
 
 
