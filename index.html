@@ -26,10 +26,15 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     h1{ text-align:center; font-size:18px; margin:8px 0 16px; font-weight:700; }
 
     /* Ligne (site à gauche, bouton heure à droite) */
-    .row{
-      display:grid; grid-template-columns: 1fr auto; gap:10px; align-items:center;
-      padding:8px 0; border-bottom:1px dashed rgba(0,0,0,.15);
-    }
+.row{
+  display: grid;
+  grid-template-columns: minmax(260px, 300px) auto; /* col. adresse fixe (max 300) */
+  justify-content: center;                           /* centre l’ensemble dans la ligne */
+  gap: 10px;                                          /* écart horizontal réduit */
+  align-items: center;
+  padding: 6px 0;
+  border-bottom: 1px dashed rgba(0,0,0,.15);
+}
 
     /* Boutons : blanc, arrondi, contour noir */
     .btn{
@@ -51,13 +56,14 @@ background: linear-gradient(120deg, #f6d365, #fda085);
       .time-btn{ min-width:70px; padding:10px 12px; font-size:13px; }
       .site-btn{ padding:10px 12px; }
     }
-	.site-btn{
-  max-width: 300px;   /* ou la largeur que tu veux */
-  text-align:center;
-  white-space:normal;
-    margin: 0 auto; 
-	  background-color: #f5f5dc; /* beige */
-  
+.site-btn {
+  max-width: 300px;
+  text-align: center;
+  white-space: normal;
+  margin: 0;                  /* plus de centrage */
+  padding-left: 10px;         /* petit recul à gauche */
+  padding-right: 10px;        /* symétrie */
+  background-color: #f5f5dc;
 }
 .nav-links {
   display: flex;
@@ -80,9 +86,9 @@ background: linear-gradient(120deg, #f6d365, #fda085);
   <div class="wrap">
     <header><img src="images/logo artemis.png" alt="Logo"></header>
 <div class="nav-links">
-  <a class="btn nav-btn" href="https://remi-mason.github.io/Rondes-Index/" target="_blank" rel="noopener">Index</a>
+  <a class="btn nav-btn" href="https://ton-lien-github" target="_blank" rel="noopener">Index</a>
 </div>
-    <h1>Rondes Libercourt
+    <h1>Planning-Rondes Libercourt
 (Lundi → Vendredi)</h1>
 
     <!-- ECL Ronchin — Fermeture — 19:30 -->
@@ -281,8 +287,6 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
-
-
 
 
 
