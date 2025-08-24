@@ -66,7 +66,8 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 .nav-links {
   display: flex;
   justify-content: center;
-  margin: 5px 0 10px;
+  gap: 10px;        /* espace entre Index et Reset */
+  margin: 5px 0 15px;
 }
 .nav-btn {
   background: #333;
@@ -76,6 +77,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
   padding: 8px 14px;
   font-weight: 600;
   text-decoration: none;
+  cursor: pointer;
 }
 
   </style>
@@ -85,6 +87,7 @@ background: linear-gradient(120deg, #f6d365, #fda085);
     <header><img src="images/logo artemis.png" alt="Logo"></header>
 <div class="nav-links">
   <a class="btn nav-btn" href="https://remi-mason.github.io/Rondes-Index/" target="_blank" rel="noopener">Index</a>
+  <button id="reset-btn" class="btn nav-btn">Réinitialiser</button>
 </div>
     <h1>Rondes Libercourt
 (Lundi → Vendredi)</h1>
@@ -306,3 +309,4 @@ background: linear-gradient(120deg, #f6d365, #fda085);
 
 </body>
 </html>
+
